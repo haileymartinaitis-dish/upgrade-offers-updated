@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Device Upgrade Quote Tool</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f4; color: #333; }
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: white;
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .header-logo {
+    width: 60px; height: 60px;
+    background: linear-gradient(135deg, #ff6b00, #ff9500);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 22px; color: white;
+    letter-spacing: -1px;
+    box-shadow: 0 4px 15px rgba(255,107,0,0.4);
+  }
+  .header h1 { font-size: 28px; font-weight: 800; line-height: 1.1; }
+  .header h1 span { display: block; color: #ff9500; }
+  .header-sub { font-size: 14px; opacity: 0.85; margin-top: 4px; }
+  .header-links { display: flex; gap: 10px; flex-wrap: wrap; }
+  .header-links a {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.2s;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .header-links a:hover { background: rgba(255,255,255,0.25); }
+  .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+  .step-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid #e8e8e8;
+  }
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .step-number {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, #ff6b00, #ff9500);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 18px;
+    flex-shrink: 0;
+    box-shadow: 0 3px 10px rgba(255,107,0,0.3);
+  }
+  .step-title { font-size: 18px; font-weight: 700; color: #1a1a2e; }
+  .epay-callout {
+    background: #e8f4fd;
+    border: 2px solid #ffc107;
+    border-left: 6px solid #ffc107;
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .epay-callout .step-number { width: 44px; height: 44px; font-size: 20px; }
+  .epay-callout-text { font-size: 16px; font-weight: 700; color: #1a1a2e; }
+  .color-options { display: flex; gap: 12px; flex-wrap: wrap; }
+  .color-btn {
+    padding: 14px 28px;
+    border: 3px solid transparent;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  }
+  .color-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+  .color-btn.active { border-color: #1a1a2e; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+  .color-btn.orange { background: linear-gradient(135deg, #ff6b00, #ff8c00); }
+  .color-btn.green { background: linear-gradient(135deg, #2e7d32, #43a047); }
+  .color-btn.purple { background: linear-gradient(135deg, #7b1fa2, #9c27b0); }
+  .color-btn.yellow { background: linear-gradient(135deg, #f9a825, #fbc02d); color: #333; text-shadow: none; }
+  .color-btn.cyan { background: linear-gradient(135deg, #00838f, #00acc1); }
+  .start-over {
+    background: none;
+    border: none;
+    color: #0f3460;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-left: auto;
+    font-weight: 600;
+  }
+  .plan-options { display: flex; gap: 12px; flex-wrap: wrap; }
+  .plan-btn {
+    padding: 14px 24px;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    background: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #333;
+  }
+  .plan-btn:hover { border-color: #0f3460; background: #f0f4ff; }
+  .plan-btn.active { border-color: #0f3460; background: #0f3460; color: white; }
+  .warning-banner {
+    background: #1a1a2e;
+    color: white;
+    padding: 14px 20px;
+    border-radius: 10px;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .warning-banner .warn-icon { font-size: 20px; }
+  .warning-banner .warn-sub { font-weight: 400; opacity: 0.7; font-size: 12px; display: block; }
+  .brand-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .brand-filter-btn {
+    padding: 8px 18px;
+    border: 2px solid #ddd;
+    border-radius: 20px;
+    background: white;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .brand-filter-btn:hover { border-color: #0f3460; }
+  .brand-filter-btn.active { background: #0f3460; color: white; border-color: #0f3460; }
+  .device-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .device-card {
+    background: white;
+    border: 2px solid #e8e8e8;
+    border-radius: 14px;
+    padding: 20px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .device-card:hover { border-color: #0f3460; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+  .device-card.free-device { border-color: #2e7d32; }
+  .device-card.free-device::after {
+    content: 'FREE';
+    position: absolute;
+    top: 12px;
+    right: -28px;
+    background: #2e7d32;
+    color: white;
+    padding: 4px 32px;
+    font-size: 11px;
+    font-weight: 800;
+    transform: rotate(45deg);
+  }
+  .device-brand { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #888; letter-spacing: 1px; margin-bottom: 6px; }
+  .device-name { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-bottom: 12px; line-height: 1.3; }
+  .device-srp { font-size: 13px; color: #999; text-decoration: line-through; margin-bottom: 4px; }
+  .device-price { font-size: 28px; font-weight: 800; color: #0f3460; margin-bottom: 4px; }
+  .device-price.free { color: #2e7d32; }
+  .device-savings { font-size: 13px; color: #2e7d32; font-weight: 600; }
+  .hidden { display: none !important; }
+  .step-card.disabled { opacity: 0.4; pointer-events: none; }
+  .footer-notes { text-align: center; padding: 20px; font-size: 12px; color: #999; }
+  .footer-internal {
+    background: #1a1a2e;
+    color: #ff9500;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+  @media (max-width: 768px) {
+    .header { padding: 16px; }
+    .header h1 { font-size: 22px; }
+    .color-options, .plan-options { flex-direction: column; }
+    .color-btn, .plan-btn { width: 100%; text-align: center; }
+    .device-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <div class="header-logo">B+</div>
+    <div>
+      <h1>Device Upgrade<span>Quote Tool</span></h1>
+      <div class="header-sub">Offers valid starting 11.19.26 &nbsp;|&nbsp; Targeted offers available through e-Pay</div>
+    </div>
+  </div>
+  <div class="header-links">
+    <a href="https://my.boostmobile.com/shop/hotsheet" target="_blank">&#128196; Pricing Hotsheet</a>
+    <a href="https://my.boostmobile.com/shop/price-tags" target="_blank">&#127991; Device Price Tags</a>
+  </div>
+</div>
+<div class="container">
+  <div class="epay-callout">
+    <div class="step-number">1</div>
+    <div class="epay-callout-text">GO TO ePAY FIRST TO GET THE CUSTOMER'S OFFER COLOR</div>
+  </div>
+  <div style="height:20px"></div>
+  <div class="step-card" id="step2">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <div class="step-title">Select The Customer's Offer Color</div>
+      <button class="start-over" onclick="resetAll()">Start over</button>
+    </div>
+    <div class="color-options">
+      <button class="color-btn orange" onclick="selectColor('Orange')">Orange</button>
+      <button class="color-btn green" onclick="selectColor('Green')">Green</button>
+      <button class="color-btn purple" onclick="selectColor('Purple')">Purple</button>
+      <button class="color-btn yellow" onclick="selectColor('Yellow')">Yellow</button>
+      <button class="color-btn cyan" onclick="selectColor('Cyan')">Cyan</button>
+    </div>
+  </div>
+  <div class="step-card disabled" id="step3">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <div class="step-title">Select The Rate Plan</div>
+    </div>
+    <div class="plan-options">
+      <button class="plan-btn" onclick="selectPlan('60')">$60 Unlimited Premium</button>
+      <button class="plan-btn" onclick="selectPlan('50')">$50 Unlimited+</button>
+      <button class="plan-btn" onclick="selectPlan('40')">$40 Global Connection</button>
+    </div>
+    <div class="warning-banner">
+      <span class="warn-icon">&#9888;</span>
+      <span>NEVER SHARE THE OFFER COLOR WITH CUSTOMERS<span class="warn-sub">Internal use only. Share only the device price.</span></span>
+    </div>
+  </div>
+  <div class="step-card disabled" id="step4">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <div class="step-title">Device Offers</div>
+    </div>
+    <div class="brand-filters" id="brandFilters"></div>
+    <div class="device-grid" id="deviceGrid"></div>
+  </div>
+  <div class="footer-internal">Internal Use Only &mdash; Never share offer colors with customers.</div>
+  <div class="footer-notes">*Offers are subject to change at any time.</div>
+</div>
+<script>
+var devices = [
+  {name:"iPhone 16e 128GB", brand:"Apple", srp:599.99, prices:{Orange:{60:99.99,50:299.99,40:479.99},Green:{60:149.99,50:399.99,40:569.99},Purple:{60:349.99,50:489.99,40:599.99},Yellow:{60:419.99,50:579.99,40:599.99},Cyan:{60:519.99,50:599.99,40:599.99}}},
+  {name:"iPhone 15 128GB", brand:"Apple", srp:629.99, prices:{Orange:{60:229.99,50:329.99,40:509.99},Green:{60:329.99,50:429.99,40:599.99},Purple:{60:429.99,50:519.99,40:629.99},Yellow:{60:479.99,50:609.99,40:629.99},Cyan:{60:549.99,50:629.99,40:629.99}}},
+  {name:"iPhone 17e 256GB", brand:"Apple", srp:699.99, prices:{Orange:{60:299.99,50:399.99,40:579.99},Green:{60:399.99,50:499.99,40:669.99},Purple:{60:449.99,50:589.99,40:699.99},Yellow:{60:519.99,50:679.99,40:699.99},Cyan:{60:619.99,50:699.99,40:699.99}}},
+  {name:"iPhone 16 128GB", brand:"Apple", srp:829.99, prices:{Orange:{60:429.99,50:529.99,40:709.99},Green:{60:529.99,50:629.99,40:799.99},Purple:{60:629.99,50:719.99,40:829.99},Yellow:{60:679.99,50:809.99,40:829.99},Cyan:{60:749.99,50:829.99,40:829.99}}},
+  {name:"iPhone 17 256GB", brand:"Apple", srp:929.99, prices:{Orange:{60:529.99,50:629.99,40:809.99},Green:{60:629.99,50:729.99,40:899.99},Purple:{60:729.99,50:819.99,40:929.99},Yellow:{60:779.99,50:909.99,40:929.99},Cyan:{60:849.99,50:929.99,40:929.99}}},
+  {name:"iPhone 17 Pro 256GB", brand:"Apple", srp:1099.99, prices:{Orange:{60:699.99,50:799.99,40:979.99},Green:{60:799.99,50:899.99,40:1069.99},Purple:{60:899.99,50:989.99,40:1099.99},Yellow:{60:949.99,50:1079.99,40:1099.99},Cyan:{60:1019.99,50:1099.99,40:1099.99}}},
+  {name:"iPhone 17 Pro Max 256GB", brand:"Apple", srp:1199.99, prices:{Orange:{60:799.99,50:899.99,40:1079.99},Green:{60:899.99,50:999.99,40:1169.99},Purple:{60:999.99,50:1089.99,40:1199.99},Yellow:{60:1049.99,50:1179.99,40:1199.99},Cyan:{60:1119.99,50:1199.99,40:1199.99}}},
+  {name:"iPhone 18 Pro 256GB", brand:"Apple", srp:1199.99, prices:{Orange:{60:799.99,50:899.99,40:1079.99},Green:{60:899.99,50:999.99,40:1169.99},Purple:{60:999.99,50:1089.99,40:1199.99},Yellow:{60:1049.99,50:1179.99,40:1199.99},Cyan:{60:1119.99,50:1199.99,40:1199.99}}},
+  {name:"iPhone 18 Pro Max 256GB", brand:"Apple", srp:1299.99, prices:{Orange:{60:899.99,50:999.99,40:1179.99},Green:{60:999.99,50:1099.99,40:1269.99},Purple:{60:1099.99,50:1189.99,40:1299.99},Yellow:{60:1149.99,50:1279.99,40:1299.99},Cyan:{60:1219.99,50:1299.99,40:1299.99}}},
+  {name:"Samsung A16", brand:"Samsung", srp:239.99, prices:{Orange:{60:0,50:0,40:119.99},Green:{60:0,50:0,40:209.99},Purple:{60:0,50:129.99,40:239.99},Yellow:{60:59.99,50:219.99,40:239.99},Cyan:{60:159.99,50:239.99,40:239.99}}},
+  {name:"Samsung A17", brand:"Samsung", srp:269.99, prices:{Orange:{60:0,50:0,40:149.99},Green:{60:0,50:69.99,40:239.99},Purple:{60:0,50:159.99,40:269.99},Yellow:{60:89.99,50:249.99,40:269.99},Cyan:{60:189.99,50:269.99,40:269.99}}},
+  {name:"Samsung A27", brand:"Samsung", srp:379.99, prices:{Orange:{60:99.99,50:179.99,40:279.99},Green:{60:149.99,50:199.99,40:349.99},Purple:{60:199.99,50:269.99,40:379.99},Yellow:{60:229.99,50:379.99,40:379.99},Cyan:{60:299.99,50:379.99,40:379.99}}},
+  {name:"Samsung S26 FE", brand:"Samsung", srp:699.99, prices:{Orange:{60:49.99,50:249.99,40:439.99},Green:{60:199.99,50:349.99,40:669.99},Purple:{60:349.99,50:589.99,40:699.99},Yellow:{60:399.99,50:679.99,40:699.99},Cyan:{60:619.99,50:699.99,40:699.99}}},
+  {name:"Samsung Galaxy S26 256GB", brand:"Samsung", srp:999.99, prices:{Orange:{60:399.99,50:699.99,40:879.99},Green:{60:699.99,50:799.99,40:969.99},Purple:{60:749.99,50:889.99,40:999.99},Yellow:{60:849.99,50:979.99,40:999.99},Cyan:{60:919.99,50:999.99,40:999.99}}},
+  {name:"Samsung Galaxy S26 Ultra 256GB", brand:"Samsung", srp:1299.99, prices:{Orange:{60:559.99,50:699.99,40:1179.99},Green:{60:649.99,50:1099.99,40:1269.99},Purple:{60:1049.99,50:1189.99,40:1299.99},Yellow:{60:1149.99,50:1299.99,40:1299.99},Cyan:{60:1219.99,50:1299.99,40:1299.99}}},
+  {name:"Celero 3 5G 2024", brand:"Celero", srp:159.99, prices:{Orange:{60:0,50:0,40:34.99},Green:{60:0,50:0,40:129.99},Purple:{60:0,50:49.99,40:159.99},Yellow:{60:9.99,50:139.99,40:159.99},Cyan:{60:79.99,50:159.99,40:159.99}}},
+  {name:"Celero 3 5G+ 2024", brand:"Celero", srp:239.99, prices:{Orange:{60:0,50:0,40:114.99},Green:{60:0,50:39.99,40:209.99},Purple:{60:29.99,50:129.99,40:239.99},Yellow:{60:89.99,50:219.99,40:239.99},Cyan:{60:159.99,50:239.99,40:239.99}}},
+  {name:"TCL 50XL", brand:"TCL", srp:149.99, prices:{Orange:{60:0,50:0,40:29.99},Green:{60:0,50:0,40:119.99},Purple:{60:0,50:49.99,40:149.99},Yellow:{60:0,50:134.99,40:149.99},Cyan:{60:69.99,50:149.99,40:149.99}}},
+  {name:"Moto G Play 2026", brand:"Motorola", srp:249.99, prices:{Orange:{60:0,50:0,40:44.99},Green:{60:0,50:0,40:134.99},Purple:{60:0,50:59.99,40:169.99},Yellow:{60:49.99,50:149.99,40:169.99},Cyan:{60:84.99,50:169.99,40:169.99}}},
+  {name:"Moto G 2026", brand:"Motorola", srp:299.99, prices:{Orange:{60:0,50:0,40:99.99},Green:{60:0,50:49.99,40:189.99},Purple:{60:39.99,50:119.99,40:229.99},Yellow:{60:99.99,50:199.99,40:229.99},Cyan:{60:139.99,50:229.99,40:229.99}}},
+  {name:"Moto G Stylus 2025", brand:"Motorola", srp:299.99, prices:{Orange:{60:0,50:0,40:179.99},Green:{60:19.99,50:99.99,40:264.99},Purple:{60:24.99,50:189.99,40:299.99},Yellow:{60:129.99,50:279.99,40:299.99},Cyan:{60:219.99,50:299.99,40:299.99}}},
+  {name:"Moto RAZR 2025", brand:"Motorola", srp:599.99, prices:{Orange:{60:69.99,50:159.99,40:459.99},Green:{60:149.99,50:199.99,40:549.99},Purple:{60:169.99,50:479.99,40:599.99},Yellow:{60:429.99,50:559.99,40:599.99},Cyan:{60:499.99,50:599.99,40:599.99}}},
+  {name:"Google Pixel 10a", brand:"Google", srp:499.99, prices:{Orange:{60:0,50:99.99,40:259.99},Green:{60:49.99,50:149.99,40:344.99},Purple:{60:99.99,50:269.99,40:379.99},Yellow:{60:199.99,50:359.99,40:379.99},Cyan:{60:299.99,50:379.99,40:379.99}}},
+  {name:"Google Pixel 10", brand:"Google", srp:799.99, prices:{Orange:{60:199.99,50:299.99,40:559.99},Green:{60:249.99,50:399.99,40:719.99},Purple:{60:299.99,50:579.99,40:799.99},Yellow:{60:499.99,50:769.99,40:799.99},Cyan:{60:639.99,50:799.99,40:799.99}}}
+];
+var selectedColor=null,selectedPlan=null,selectedBrand='All';
+function selectColor(color){selectedColor=color;selectedPlan=null;selectedBrand='All';var btns=document.querySelectorAll('.color-btn');btns.forEach(function(b){b.classList.remove('active')});event.target.classList.add('active');document.getElementById('step3').classList.remove('disabled');document.getElementById('step4').classList.add('disabled');document.querySelectorAll('.plan-btn').forEach(function(b){b.classList.remove('active')});document.getElementById('deviceGrid').innerHTML='';document.getElementById('brandFilters').innerHTML=''}
+function selectPlan(plan){selectedPlan=plan;selectedBrand='All';var btns=document.querySelectorAll('.plan-btn');btns.forEach(function(b){b.classList.remove('active')});event.target.classList.add('active');document.getElementById('step4').classList.remove('disabled');renderBrandFilters();renderDevices()}
+function renderBrandFilters(){var brands=['All'];devices.forEach(function(d){if(brands.indexOf(d.brand)===-1)brands.push(d.brand)});var html='';brands.forEach(function(b){var ac=(b===selectedBrand)?' active':'';html+='<button class="brand-filter-btn'+ac+'" onclick="filterBrand(\''+b+'\')">'+b+'</button>'});document.getElementById('brandFilters').innerHTML=html}
+function filterBrand(brand){selectedBrand=brand;renderBrandFilters();renderDevices()}
+function renderDevices(){if(!selectedColor||!selectedPlan)return;var grid=document.getElementById('deviceGrid');var html='';devices.forEach(function(d){if(selectedBrand!=='All'&&d.brand!==selectedBrand)return;var price=d.prices[selectedColor][parseInt(selectedPlan)];var savings=d.srp-price;var isFree=(price===0);var cardClass=isFree?'device-card free-device':'device-card';var priceClass=isFree?'device-price free':'device-price';var priceText=isFree?'FREE':'$'+price.toFixed(2);var savingsText=isFree?'Save $'+d.srp.toFixed(2):(savings>0?'Save $'+savings.toFixed(2):'');html+='<div class="'+cardClass+'">';html+='<div class="device-brand">'+d.brand+'</div>';html+='<div class="device-name">'+d.name+'</div>';html+='<div class="device-srp">SRP: $'+d.srp.toFixed(2)+'</div>';html+='<div class="'+priceClass+'">'+priceText+'</div>';if(savingsText)html+='<div class="device-savings">'+savingsText+'</div>';html+='</div>'});grid.innerHTML=html}
+function resetAll(){selectedColor=null;selectedPlan=null;selectedBrand='All';document.querySelectorAll('.color-btn').forEach(function(b){b.classList.remove('active')});document.querySelectorAll('.plan-btn').forEach(function(b){b.classList.remove('active')});document.getElementById('step3').classList.add('disabled');document.getElementById('step4').classList.add('disabled');document.getElementById('deviceGrid').innerHTML='';document.getElementById('brandFilters').innerHTML=''}
+</script>
+</body>
+</html>
